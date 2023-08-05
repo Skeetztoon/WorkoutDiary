@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_app_flutter/pages/home_page.dart';
-import 'package:task_app_flutter/pages/sessions_list.dart';
+import 'package:task_app_flutter/pages/initial_page.dart';
+
 
 
 void main() {
@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: InitPage(),
+
     );
   }
 }
