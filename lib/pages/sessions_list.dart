@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_app_flutter/pages/session.dart';
+import 'package:task_app_flutter/pages/session_card.dart';
 
 
 class SessionsList extends StatefulWidget {

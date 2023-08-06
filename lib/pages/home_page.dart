@@ -10,7 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +58,8 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                  FloatingActionButton.extended(//                       КНОПКА
+                  FloatingActionButton.extended(
+                    //                       КНОПКА
                     label: const Text(
                       'NEW WORKOUT',
                       style: TextStyle(
@@ -111,11 +111,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-
           ],
         ),
       ),
-
     );
   }
 }
