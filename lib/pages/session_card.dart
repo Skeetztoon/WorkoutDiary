@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Session extends StatelessWidget {
-  final String child;
 
-  Session({required this.child});
+  final String textChild;
 
+  Session({required this.textChild});
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -13,7 +13,6 @@ class Session extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: ListTile(
               shape: RoundedRectangleBorder(
-                //<-- SEE HERE
                 borderRadius: BorderRadius.circular(15.0),
               ),
               tileColor: const Color(0xFF3b3b3b),
@@ -21,8 +20,8 @@ class Session extends StatelessWidget {
               iconColor: Colors.white,
               // contentPadding: EdgeInsets.symmetric(horizontal: 20),
               // leading: FlutterLogo(size: 56.0),
-              title: const Text(
-                'Training at "Date"',
+              title: Text(
+                textChild,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               subtitle: const Text('Time: "1:37"'),

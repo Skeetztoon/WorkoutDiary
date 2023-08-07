@@ -28,9 +28,7 @@ class MyHeatMap extends StatelessWidget {
       colorsets: {
         1: Colors.pink,
       },
-      onClick: (value) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value.toString())));
-      },
+      onClick: (value) {},
     );
   }
 }

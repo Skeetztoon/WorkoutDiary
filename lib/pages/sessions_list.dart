@@ -11,13 +11,12 @@ class SessionsList extends StatefulWidget {
 
 class _SessionsListState extends State<SessionsList> {
 
-  final List _sessions = [
-    "Session 1",
-    "Session 2",
-    "Session 3",
-    "Session 4",
-    "Session 5",
+  final List sessions = [
+    1,
+    2,
   ];
+
+  int exercises = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +39,8 @@ class _SessionsListState extends State<SessionsList> {
           ),
           Expanded(
               child: ListView.builder(
-                  itemCount: _sessions.length, itemBuilder: (context, index) {
-                  return Session(child: _sessions[index]);
+                  itemCount: sessions.length, itemBuilder: (context, index) {
+                return Session(textChild: sessions[index].toString(),);
                   })
               )
         ],

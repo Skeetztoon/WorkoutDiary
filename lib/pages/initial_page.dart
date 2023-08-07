@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:task_app_flutter/pages/new_workout.dart';
 import 'package:task_app_flutter/pages/sessions_list.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'home_page.dart';
 
@@ -28,17 +30,10 @@ class _InitPageState extends State<InitPage> {
               child: Icon(Icons.add),
               backgroundColor: Colors.pink,
               onPressed: () {
-                showBottomSheet(context: context, builder: (BuildContext context) {
-                  return SizedBox(
-                   height: 400,
-                    child: ElevatedButton(
-                      child: Text("Close"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  );
-                });
+                Navigator.push(context, PageTransition(
+                  type: PageTransitionType.fade , duration: Duration(milliseconds: 150),
+                  child: const NewWorkout()
+                ));
               }),
         ),
       ),
