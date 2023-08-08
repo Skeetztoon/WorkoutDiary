@@ -33,6 +33,7 @@ dependencies:
   intl: ^0.18.0
   flutter_heatmap_calendar: ^1.0.5
   page_transition: ^2.0.9
+  numberpicker: ^2.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
