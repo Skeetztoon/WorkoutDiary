@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:task_app_flutter/pages/exercise_card.dart';
+import 'package:task_app_flutter/cards/exercise_card.dart';
 
 
 

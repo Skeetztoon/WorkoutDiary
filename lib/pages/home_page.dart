@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:task_app_flutter/pages/exerciseList_page.dart';
 import 'package:task_app_flutter/pages/my_heat_map.dart';
 
 import 'new_workout.dart';
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   FloatingActionButton.extended(
                     //                       КНОПКА
                     label: const Text(
-                      'NEW WORKOUT',
+                      'LIST',
                       style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
@@ -76,7 +77,12 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black87,
                       size: 24.0,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, PageTransition(
+                          type: PageTransitionType.fade , duration: Duration(milliseconds: 150),
+                          child: const ExerciseList()
+                      ));
+                    },
                   ),
                 ],
               ),

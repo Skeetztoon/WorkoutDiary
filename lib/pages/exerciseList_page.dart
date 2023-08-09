@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:task_app_flutter/cards/session_card.dart';
+import 'package:task_app_flutter/cards/exerciseItem_card.dart';
 
 
-class SessionsList extends StatefulWidget {
-  const SessionsList({super.key});
+class ExerciseList extends StatefulWidget {
+  const ExerciseList({super.key});
 
   @override
-  State<SessionsList> createState() => _SessionsListState();
+  State<ExerciseList> createState() => _ExerciseListState();
 }
 
-class _SessionsListState extends State<SessionsList> {
+class _ExerciseListState extends State<ExerciseList> {
 
-  final List sessions = [
-    1,
-    2,
+  final List exercises = [
+    "Bicep Cirls",
+    "Pullups",
   ];
 
-  int exercises = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class _SessionsListState extends State<SessionsList> {
             height: 80,
           ),
           const Text(
-            "YOUR SESSIONS",
+            "EXERCISES",
             style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
@@ -39,10 +38,10 @@ class _SessionsListState extends State<SessionsList> {
           ),
           Expanded(
               child: ListView.builder(
-                  itemCount: sessions.length, itemBuilder: (context, index) {
-                return Session(textChild: sessions[index].toString(),);
-                  })
-              )
+                  itemCount: exercises.length, itemBuilder: (context, index) {
+                return ExerciseItem(textChild: exercises[index],);
+              })
+          )
         ],
       ),
     );
