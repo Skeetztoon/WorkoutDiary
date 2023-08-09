@@ -48,14 +48,6 @@ class _InitPageState extends State<InitPage> {
       )??false; //if showDialouge had returned null, then return false
     }
 
-
-
-
-
-
-
-
-
   return WillPopScope(
   onWillPop: showExitPopup, //call function on back button press
   child:Scaffold(

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:task_app_flutter/cards/exerciseItem_card.dart';
 
@@ -10,11 +12,17 @@ class ExerciseList extends StatefulWidget {
 }
 
 class _ExerciseListState extends State<ExerciseList> {
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp().whenComplete(() {
+      print("completed");
+      setState(() {});
+    });
+  }
 
-  final List exercises = [
-    "Bicep Cirls",
-    "Pullups",
-  ];
+  final Stream<QuerySnapshot> exercisesList = FirebaseFirestore.instance.collection("ExercisesList").snapshots();
+
 
 
   @override
@@ -36,11 +44,26 @@ class _ExerciseListState extends State<ExerciseList> {
           const SizedBox(
             height: 5,
           ),
+
+
           Expanded(
-              child: ListView.builder(
-                  itemCount: exercises.length, itemBuilder: (context, index) {
-                return ExerciseItem(textChild: exercises[index],);
-              })
+              child: StreamBuilder<QuerySnapshot>(stream: exercisesList, builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot,) {
+                if (snapshot.hasError) {
+                  return Text("Something went wrong");
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
+
+                final data = snapshot.requireData;
+
+                return ListView.builder(
+                  itemCount: data.size,
+                  itemBuilder: (context, index) {
+                    return ExerciseItem(textChild: data.docs[index]["label"]);
+                  },
+                );
+              },)
           )
         ],
       ),
