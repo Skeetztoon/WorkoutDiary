@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:task_app_flutter/pages/initial_page.dart';
 
 
-
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

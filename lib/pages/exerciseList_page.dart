@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:task_app_flutter/cards/exerciseItem_card.dart';
+import 'package:task_app_flutter/forms/newExercise_form.dart';
 
 
 class ExerciseList extends StatefulWidget {
@@ -13,17 +13,8 @@ class ExerciseList extends StatefulWidget {
 
 class _ExerciseListState extends State<ExerciseList> {
   @override
-  void initState() {
-    super.initState();
-    Firebase.initializeApp().whenComplete(() {
-      print("completed");
-      setState(() {});
-    });
-  }
 
   final Stream<QuerySnapshot> exercisesList = FirebaseFirestore.instance.collection("ExercisesList").snapshots();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +40,10 @@ class _ExerciseListState extends State<ExerciseList> {
           Expanded(
               child: StreamBuilder<QuerySnapshot>(stream: exercisesList, builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot,) {
                 if (snapshot.hasError) {
-                  return Text("Something went wrong");
+                  return const Text("Something went wrong");
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
+                  return const Text("Loading");
                 }
 
                 final data = snapshot.requireData;
@@ -60,12 +51,32 @@ class _ExerciseListState extends State<ExerciseList> {
                 return ListView.builder(
                   itemCount: data.size,
                   itemBuilder: (context, index) {
-                    return ExerciseItem(textChild: data.docs[index]["label"]);
+                    return ExerciseItem(textChild: data.docs[index]["Label"], exerciseIndex: data.docs[index].reference.id);
                   },
                 );
               },)
-          )
+          ),
         ],
+      ),
+      floatingActionButton: SizedBox(
+        width: 80,
+        height: 80,
+        child: FittedBox(
+          child: FloatingActionButton(
+            backgroundColor: Colors.pink,
+            child: const Icon(Icons.add),
+            onPressed: () {
+              showDialog(context: context, builder: (BuildContext context) {
+                return const AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                  contentPadding: EdgeInsets.zero,
+                  content: NewExerciseForm(),
+                );
+              });
+            },
+          ),
+        ),
       ),
     );
   }
