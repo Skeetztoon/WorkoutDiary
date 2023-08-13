@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_app_flutter/pages/new_workout.dart';
+import 'package:task_app_flutter/pages/new_workout_page.dart';
 import 'package:task_app_flutter/pages/sessions_list.dart';
 import 'package:page_transition/page_transition.dart';
 

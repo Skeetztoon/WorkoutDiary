@@ -78,7 +78,7 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                 const SizedBox(height: 10,),
 
                 ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 300),
+                  constraints: const BoxConstraints(maxHeight: 500),
                   child: ListView.builder(
                     reverse: true,
                           shrinkWrap: true,
@@ -87,6 +87,7 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                     return const ExerciseCard();
                       }),
                 ),
+
                 FloatingActionButton.extended(
                   //                       КНОПКА
                   label: const Text(

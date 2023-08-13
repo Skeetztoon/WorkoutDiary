@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:task_app_flutter/cards/exerciseItem_card.dart';
-import 'package:task_app_flutter/forms/newExercise_form.dart';
+import 'package:task_app_flutter/forms/createExercise_form.dart';
 
 
 class ExerciseList extends StatefulWidget {
