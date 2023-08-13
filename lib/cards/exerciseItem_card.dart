@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app_flutter/forms/deleteExercise_form.dart';
 import 'package:task_app_flutter/forms/editExercise_form.dart';
 
 class ExerciseItem extends StatelessWidget {
@@ -39,6 +40,25 @@ class ExerciseItem extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       contentPadding: EdgeInsets.zero,
                       content: EditExerciseForm(initialString: textChild, exIndex: exerciseIndex, ),
+                    );
+                  },
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.delete,
+                size: 20.0,
+              ),
+              onPressed: () {
+                showDialog<void>(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return AlertDialog(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      contentPadding: EdgeInsets.zero,
+                      content: DeleteExerciseForm(exIndex: exerciseIndex, ),
                     );
                   },
                 );

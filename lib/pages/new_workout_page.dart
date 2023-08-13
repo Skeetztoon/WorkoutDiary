@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:task_app_flutter/cards/exercise_card.dart';
-
-
+import 'package:swipeable_button_view/swipeable_button_view.dart';
 
 class NewWorkout extends StatefulWidget {
   const NewWorkout({super.key});
@@ -27,29 +26,17 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
     super.dispose();
   }
 
-
-
   int exercises = 2;
 
-  final List sessions = [
+  final List exerciseCounter = [
     1,
-    2,
   ];
 
-  final exercisesList = ["Arm", "Leg", "Shoulder"];
-  List<DropdownMenuItem<String>> _createList() {
-    return exercisesList
-        .map<DropdownMenuItem<String>>(
-          (e) => DropdownMenuItem(
-        value: e,
-        child: Text(e),
-      ),
-    )
-        .toList();
-  }
-
+  List<String> dropdownValues = [''];
 
   ScrollController controller = new ScrollController();
+
+  bool isFinished = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,20 +61,23 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
                 ),
-
-                const SizedBox(height: 10,),
-
+                const SizedBox(
+                  height: 10,
+                ),
                 ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 500),
+                  constraints: const BoxConstraints(maxHeight: 450),
                   child: ListView.builder(
-                    reverse: true,
-                          shrinkWrap: true,
+                      reverse: true,
+                      shrinkWrap: true,
                       controller: controller,
-                          itemCount: sessions.length, itemBuilder: (context, index) {
-                    return const ExerciseCard();
+                      itemCount: exerciseCounter.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ExerciseCard(
+                          dropdownValues: dropdownValues,
+                          index: index,
+                        );
                       }),
                 ),
-
                 FloatingActionButton.extended(
                   //                       КНОПКА
                   label: const Text(
@@ -103,16 +93,48 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                     color: Colors.black87,
                     size: 24.0,
                   ),
-                  onPressed: () {setState(() {
-                    sessions.add(sessions[sessions.length-1]+1);
-                    Timer(const Duration(milliseconds: 100), () {
-                      controller.jumpTo(controller.position.maxScrollExtent);
+                  onPressed: () {
+                    setState(() {
+                      exerciseCounter
+                          .add(exerciseCounter[exerciseCounter.length - 1] + 1);
+                      Timer(const Duration(milliseconds: 100), () {
+                        controller.jumpTo(controller.position.maxScrollExtent);
+                      });
+                      dropdownValues.add("");
                     });
-                  });},
+                  },
                 ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SwipeableButtonView(
+                      activeColor: Colors.pink,
+                      buttonText: "FINISH",
+                      buttonWidget: Container(
+                        child: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      isFinished: isFinished,
+                      onWaitingProcess: () {
+                        Future.delayed(Duration(seconds: 2), () {
+                          setState(() {
+                            isFinished = true;
+                          });
+                        });
+                      },
+                      onFinish: () {
+                        Navigator.pop(context);
+                        print("################### LIST ################### $dropdownValues");
+                      },
+                    ),
+                  ),
+                )
               ],
             ),
           ),
         ));
   }
 }
+

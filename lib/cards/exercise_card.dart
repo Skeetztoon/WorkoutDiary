@@ -2,9 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:task_app_flutter/pages/new_workout_page.dart';
 
 class ExerciseCard extends StatefulWidget {
-  const ExerciseCard({super.key});
+  final List<String> dropdownValues;
+  final int index;
+  const ExerciseCard({
+    required this.dropdownValues,
+    required this.index,
+  });
 
   @override
   State<ExerciseCard> createState() => _ExerciseCardState();
@@ -16,6 +22,24 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   String? selectedExersice;
 
+  // GPT
+  // String? selectedValue;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   selectedValue = 'Initial Value';
+  // }
+  //
+  // void onChanged(newValue) {
+  //   setState(() {
+  //     selectedValue = newValue!;
+  //     widget.dropdownValues[widget.index] = selectedValue!;
+  //   });
+  // }
+  //
+  //
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,43 +47,50 @@ class _ExerciseCardState extends State<ExerciseCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-            StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("ExercisesList")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                List<DropdownMenuItem> exerciseItems = [];
-                if (!snapshot.hasData) {
-                  // return const Text("Loading");
-                  const CircularProgressIndicator();
-                } else {
-                  final exercises = snapshot.data?.docs.reversed.toList();
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection("ExercisesList")
+                .snapshots(),
+            builder: (context, snapshot) {
+              List<DropdownMenuItem> exerciseItems = [];
+              if (!snapshot.hasData) {
+                // return const Text("Loading");
+                const CircularProgressIndicator();
+              } else {
+                final exercises = snapshot.data?.docs.reversed.toList();
 
-                  for (var exercise in exercises!) {
-                    exerciseItems.add(
-                      DropdownMenuItem(
-                        value: exercise.id,
-                        child: Text(exercise["Label"]),
+                for (var exercise in exercises!) {
+                  exerciseItems.add(
+                    DropdownMenuItem(
+                      value: exercise.id,
+                      child: Text(
+                        exercise["Label"],
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 25),
                       ),
-                    );
-                  }
+                    ),
+                  );
                 }
-                return DropdownButton(
-                    hint: const Text(
-                          "TAP TO CHANGE",
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
-                    isExpanded: false,
-                    value: selectedExersice,
-                    items: exerciseItems,
-                    onChanged: (exerciseValue) {
-                      setState(() {
-                        selectedExersice = exerciseValue;
-                      });
-                    });
-              },
-            ),
-
+              }
+              return DropdownButton(
+                underline: Container(),
+                dropdownColor: const Color(0xFF3b3b3b),
+                hint: const Text(
+                  "TAP TO CHANGE",
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                ),
+                isExpanded: false,
+                value: selectedExersice,
+                items: exerciseItems,
+                onChanged: (exerciseValue) {
+                  setState(() {
+                    selectedExersice = exerciseValue;
+                    widget.dropdownValues[widget.index] = selectedExersice!;
+                  });
+                },
+              );
+            },
+          ),
           SizedBox(
             width: 20,
             child: NumberPicker(
@@ -92,8 +123,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   setState(() => _currentRepsNumberPickerValue = value),
             ),
           ),
-
-
         ],
       ),
     );
