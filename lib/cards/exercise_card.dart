@@ -23,21 +23,33 @@ class _ExerciseCardState extends State<ExerciseCard> {
   String? selectedExersice;
 
   // GPT
-  // String? selectedValue;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   selectedValue = 'Initial Value';
-  // }
-  //
-  // void onChanged(newValue) {
-  //   setState(() {
-  //     selectedValue = newValue!;
-  //     widget.dropdownValues[widget.index] = selectedValue!;
-  //   });
-  // }
-  //
+  String conCat(String a, String b, String c) {
+   return a+b+c;
+  }
+
+  String replaceWordBetweenPipes(String originalString, String word) {
+    int start = originalString.indexOf('|');
+    int end = originalString.indexOf('|', start + 1);
+
+    if (start != -1 && end != -1) {
+      String prefix = originalString.substring(0, start + 1);
+      String suffix = originalString.substring(end);
+      return prefix + word + suffix;
+    }
+
+    return originalString;
+  }
+
+  String replaceWordAfterThirdPipe(String originalString, String word) {
+    List<String> parts = originalString.split('|');
+
+    if (parts.length >= 3) {
+      parts[2] = word;
+      return parts.join('|');
+    }
+
+    return originalString;
+  }
   //
 
   @override
@@ -62,7 +74,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 for (var exercise in exercises!) {
                   exerciseItems.add(
                     DropdownMenuItem(
-                      value: exercise.id,
+                      value: exercise["Label"],
                       child: Text(
                         exercise["Label"],
                         style:
@@ -86,6 +98,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   setState(() {
                     selectedExersice = exerciseValue;
                     widget.dropdownValues[widget.index] = selectedExersice!;
+                    widget.dropdownValues[widget.index] = widget.dropdownValues[widget.index] + '\|$_currentSetsNumberPickerValue' + '\|$_currentRepsNumberPickerValue';
                   });
                 },
               );
@@ -101,8 +114,19 @@ class _ExerciseCardState extends State<ExerciseCard> {
               textStyle: TextStyle(color: Colors.white.withOpacity(0.05)),
               selectedTextStyle:
                   const TextStyle(color: Colors.white, fontSize: 24),
-              onChanged: (value) =>
-                  setState(() => _currentSetsNumberPickerValue = value),
+              onChanged: (value) {
+                setState(() {
+                  _currentSetsNumberPickerValue = value;
+                  widget.dropdownValues[widget.index] = replaceWordBetweenPipes(widget.dropdownValues[widget.index], _currentSetsNumberPickerValue.toString()) ;
+                  // int start = widget.dropdownValues[widget.index].indexOf('|');
+                  // int end = widget.dropdownValues[widget.index].indexOf('|', start + 1);
+                  // if (start != -1 && end != -1) {
+                  //   String prefix = widget.dropdownValues[widget.index].substring(0, start + 1);
+                  //   String suffix = widget.dropdownValues[widget.index].substring(end);
+                  //   widget.dropdownValues[widget.index]= prefix + "$_currentSetsNumberPickerValue" + suffix;
+                  // }
+                });
+              },
             ),
           ),
           const Text(
@@ -119,8 +143,17 @@ class _ExerciseCardState extends State<ExerciseCard> {
               textStyle: TextStyle(color: Colors.white.withOpacity(0.05)),
               selectedTextStyle:
                   const TextStyle(color: Colors.white, fontSize: 24),
-              onChanged: (value) =>
-                  setState(() => _currentRepsNumberPickerValue = value),
+              onChanged: (value) {
+                setState(() {
+                  _currentRepsNumberPickerValue = value;
+                  widget.dropdownValues[widget.index] = replaceWordAfterThirdPipe(widget.dropdownValues[widget.index], _currentRepsNumberPickerValue.toString());
+                  // List<String> partsReps = widget.dropdownValues[widget.index].split('|');
+                  // if (partsReps.length >= 2) {
+                  //   widget.dropdownValues[widget.index] = '${partsReps[0]}|${partsReps[1]}' + '\|$_currentRepsNumberPickerValue';
+                  // } else {
+                  //   widget.dropdownValues[widget.index] = widget.dropdownValues[widget.index] + '\|$_currentRepsNumberPickerValue';}
+                });
+              },
             ),
           ),
         ],
@@ -128,3 +161,5 @@ class _ExerciseCardState extends State<ExerciseCard> {
     );
   }
 }
+
+

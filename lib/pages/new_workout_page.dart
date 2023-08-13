@@ -118,7 +118,7 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                       ),
                       isFinished: isFinished,
                       onWaitingProcess: () {
-                        Future.delayed(Duration(seconds: 2), () {
+                        Future.delayed(Duration(milliseconds: 1000), () {
                           setState(() {
                             isFinished = true;
                           });
