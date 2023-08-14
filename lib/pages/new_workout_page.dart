@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:task_app_flutter/cards/exercise_card.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
@@ -110,23 +112,27 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                     child: SwipeableButtonView(
                       activeColor: Colors.pink,
                       buttonText: "FINISH",
-                      buttonWidget: Container(
-                        child: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey,
-                        ),
+                      buttonWidget: const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
                       ),
                       isFinished: isFinished,
                       onWaitingProcess: () {
-                        Future.delayed(Duration(milliseconds: 1000), () {
-                          setState(() {
-                            isFinished = true;
-                          });
+                        String dateStr = "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
+                        CollectionReference myWorkouts = FirebaseFirestore.instance.collection('MyWorkouts');
+                        myWorkouts.add({
+                            'Date': dateStr,
+                            'Exercises': dropdownValues
+                          }).catchError((error) => print("Failed to add session: $error"));;
+
+                        setState(() {
+                          isFinished = true;
                         });
                       },
                       onFinish: () {
                         Navigator.pop(context);
-                        print("################### LIST ################### $dropdownValues");
+                        print(
+                            "################### LIST ################### $dropdownValues");
                       },
                     ),
                   ),
@@ -137,4 +143,3 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
         ));
   }
 }
-
