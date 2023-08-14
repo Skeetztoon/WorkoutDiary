@@ -123,7 +123,7 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                         myWorkouts.add({
                             'Date': dateStr,
                             'Exercises': dropdownValues
-                          }).catchError((error) => print("Failed to add session: $error"));;
+                          }).catchError((error) => print("Failed to add session: $error"));
 
                         setState(() {
                           isFinished = true;
@@ -131,8 +131,6 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                       },
                       onFinish: () {
                         Navigator.pop(context);
-                        print(
-                            "################### LIST ################### $dropdownValues");
                       },
                     ),
                   ),
