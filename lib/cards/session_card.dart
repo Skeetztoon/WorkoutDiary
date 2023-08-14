@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
 
 class Session extends StatelessWidget {
+  final String index;
+  final String date;
+  final String timer;
+  final List<dynamic> exercises;
 
-  final String textChild;
+  Session({required this.date, required this.exercises, required this.index, required this.timer});
 
-  Session({required this.textChild});
+  makeList() {
+    String str = exercises.map((exercise) {
+      exercise = exercise.replaceAll("|", " ");
+      exercise = exercise.replaceRange(exercise.lastIndexOf(" "), exercise.lastIndexOf(" ") + 1, "x");
+      exercise += "\n";
+      return exercise;
+    }).toString();
+    str = str.replaceAll('(', "").replaceAll(')', "").replaceAll(', ', "");
+    return str;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Hero(
         tag: "ListTile-Hero",
         child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: ListTile(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -21,11 +36,11 @@ class Session extends StatelessWidget {
               // contentPadding: EdgeInsets.symmetric(horizontal: 20),
               // leading: FlutterLogo(size: 56.0),
               title: Text(
-                textChild,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                date,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              subtitle: const Text('Time: "1:37"'),
-              trailing: Icon(Icons.remove_red_eye_outlined),
+              subtitle: Text('Time: "$timer"'),
+              trailing: const Icon(Icons.remove_red_eye_outlined),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute<Widget>(builder: (BuildContext context) {
@@ -35,7 +50,7 @@ class Session extends StatelessWidget {
                       child: Hero(
                         tag: 'ListTile-Hero',
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: ListTile(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
@@ -43,13 +58,15 @@ class Session extends StatelessWidget {
                             textColor: Colors.white,
                             tileColor: const Color(0xFF3b3b3b),
                             title: Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: Text('Time spent: 1:37',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 20))),
-                            subtitle: const Text(
-                              'Pull-ups: 3x10 \nBicep cirls: 3xFailure',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                padding: const EdgeInsets.symmetric(vertical: 15),
+                                child: Text('Time spent: $timer',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20))),
+                            subtitle: Text(
+                              makeList(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             onTap: () {
                               Navigator.pop(context);

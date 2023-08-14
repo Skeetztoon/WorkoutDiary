@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:task_app_flutter/cards/session_card.dart';
 
@@ -10,6 +11,8 @@ class SessionsList extends StatefulWidget {
 }
 
 class _SessionsListState extends State<SessionsList> {
+
+  final Stream<QuerySnapshot> exercisesList = FirebaseFirestore.instance.collection("MyWorkouts").snapshots();
 
   final List sessions = [
     1,
@@ -38,11 +41,24 @@ class _SessionsListState extends State<SessionsList> {
             height: 5,
           ),
           Expanded(
-              child: ListView.builder(
-                  itemCount: sessions.length, itemBuilder: (context, index) {
-                return Session(textChild: sessions[index].toString(),);
-                  })
-              )
+              child: StreamBuilder<QuerySnapshot>(stream: exercisesList, builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot,) {
+                if (snapshot.hasError) {
+                  return const Text("Something went wrong");
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text("Loading");
+                }
+
+                final data = snapshot.requireData;
+
+                return ListView.builder(
+                  itemCount: data.size,
+                  itemBuilder: (context, index) {
+                    return Session(date: data.docs[index]["Date"], exercises: data.docs[index]["Exercises"], timer: data.docs[index]["Timer"], index: data.docs[index].reference.id);
+                  },
+                );
+              },)
+          ),
         ],
       ),
     );

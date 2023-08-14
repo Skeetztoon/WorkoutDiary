@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:task_app_flutter/cards/exercise_card.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 
@@ -28,8 +26,6 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  int exercises = 2;
-
   final List exerciseCounter = [
     1,
   ];
@@ -40,8 +36,21 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
 
   bool isFinished = false;
 
+  final stopwatch = Stopwatch();
+  late Timer timer;
+  String elapsedTime = '00:00:00';
+
   @override
   Widget build(BuildContext context) {
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      setState(() {
+        elapsedTime =
+            '${(stopwatch.elapsed.inHours).toString().padLeft(2, '0')}:'
+            '${(stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, '0')}:'
+            '${(stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0')}';
+      });
+    });
+    stopwatch.start();
     return Scaffold(
         backgroundColor: Colors.black.withOpacity(0.5),
         body: Center(
@@ -66,6 +75,13 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                 const SizedBox(
                   height: 10,
                 ),
+                Text(
+                  elapsedTime,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  ),
+                ),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxHeight: 450),
                   child: ListView.builder(
@@ -73,11 +89,20 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                       shrinkWrap: true,
                       controller: controller,
                       itemCount: exerciseCounter.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ExerciseCard(
-                          dropdownValues: dropdownValues,
-                          index: index,
-                        );
+                      itemBuilder: (context, index) {
+                        final item = exerciseCounter[index];
+                        return Dismissible(
+                            key: Key(item.toString()),
+                            onDismissed: (direction) {
+                              setState(() {
+                                exerciseCounter.removeAt(index);
+                              });
+                            },
+                            background: Container(color: Colors.red),
+                            child: ExerciseCard(
+                              dropdownValues: dropdownValues,
+                              index: index,
+                            ));
                       }),
                 ),
                 FloatingActionButton.extended(
@@ -118,12 +143,20 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                       ),
                       isFinished: isFinished,
                       onWaitingProcess: () {
-                        String dateStr = "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
-                        CollectionReference myWorkouts = FirebaseFirestore.instance.collection('MyWorkouts');
+                        String dateStr =
+                            "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
+
+                        timer.cancel();
+                        stopwatch.stop(); // Секундомер
+                        List<String> filteredDropdownValues = dropdownValues.where((value) => value.isNotEmpty).toList();
+
+                        CollectionReference myWorkouts =
+                            FirebaseFirestore.instance.collection('MyWorkouts');
                         myWorkouts.add({
-                            'Date': dateStr,
-                            'Exercises': dropdownValues
-                          }).catchError((error) => print("Failed to add session: $error"));
+                          'Date': dateStr,
+                          'Timer': elapsedTime,
+                          'Exercises': filteredDropdownValues
+                        });
 
                         setState(() {
                           isFinished = true;

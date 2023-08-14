@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:task_app_flutter/pages/new_workout_page.dart';
 
 class ExerciseCard extends StatefulWidget {
   final List<String> dropdownValues;
@@ -24,7 +23,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   // GPT
   String conCat(String a, String b, String c) {
-   return a+b+c;
+    return a + b + c;
   }
 
   String replaceWordBetweenPipes(String originalString, String word) {
@@ -77,8 +76,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       value: exercise["Label"],
                       child: Text(
                         exercise["Label"],
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 25),
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 25),
                       ),
                     ),
                   );
@@ -98,7 +97,10 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   setState(() {
                     selectedExersice = exerciseValue;
                     widget.dropdownValues[widget.index] = selectedExersice!;
-                    widget.dropdownValues[widget.index] = widget.dropdownValues[widget.index] + '\|$_currentSetsNumberPickerValue' + '\|$_currentRepsNumberPickerValue';
+                    widget.dropdownValues[widget.index] =
+                        widget.dropdownValues[widget.index] +
+                            '\|$_currentSetsNumberPickerValue' +
+                            '\|$_currentRepsNumberPickerValue';
                   });
                 },
               );
@@ -117,14 +119,10 @@ class _ExerciseCardState extends State<ExerciseCard> {
               onChanged: (value) {
                 setState(() {
                   _currentSetsNumberPickerValue = value;
-                  widget.dropdownValues[widget.index] = replaceWordBetweenPipes(widget.dropdownValues[widget.index], _currentSetsNumberPickerValue.toString()) ;
-                  // int start = widget.dropdownValues[widget.index].indexOf('|');
-                  // int end = widget.dropdownValues[widget.index].indexOf('|', start + 1);
-                  // if (start != -1 && end != -1) {
-                  //   String prefix = widget.dropdownValues[widget.index].substring(0, start + 1);
-                  //   String suffix = widget.dropdownValues[widget.index].substring(end);
-                  //   widget.dropdownValues[widget.index]= prefix + "$_currentSetsNumberPickerValue" + suffix;
-                  // }
+                  widget.dropdownValues[widget.index] =
+                      replaceWordBetweenPipes(
+                          widget.dropdownValues[widget.index],
+                          _currentSetsNumberPickerValue.toString());
                 });
               },
             ),
@@ -146,12 +144,10 @@ class _ExerciseCardState extends State<ExerciseCard> {
               onChanged: (value) {
                 setState(() {
                   _currentRepsNumberPickerValue = value;
-                  widget.dropdownValues[widget.index] = replaceWordAfterThirdPipe(widget.dropdownValues[widget.index], _currentRepsNumberPickerValue.toString());
-                  // List<String> partsReps = widget.dropdownValues[widget.index].split('|');
-                  // if (partsReps.length >= 2) {
-                  //   widget.dropdownValues[widget.index] = '${partsReps[0]}|${partsReps[1]}' + '\|$_currentRepsNumberPickerValue';
-                  // } else {
-                  //   widget.dropdownValues[widget.index] = widget.dropdownValues[widget.index] + '\|$_currentRepsNumberPickerValue';}
+                  widget.dropdownValues[widget.index] =
+                      replaceWordAfterThirdPipe(
+                          widget.dropdownValues[widget.index],
+                          _currentRepsNumberPickerValue.toString());
                 });
               },
             ),
@@ -161,5 +157,3 @@ class _ExerciseCardState extends State<ExerciseCard> {
     );
   }
 }
-
-
