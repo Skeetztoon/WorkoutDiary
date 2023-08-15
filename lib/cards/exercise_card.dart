@@ -18,6 +18,7 @@ class ExerciseCard extends StatefulWidget {
 class _ExerciseCardState extends State<ExerciseCard> {
   int _currentSetsNumberPickerValue = 3;
   int _currentRepsNumberPickerValue = 10;
+  int _currentWeightNumberPickerValue = 10;
 
   String? selectedExersice;
 
@@ -25,24 +26,20 @@ class _ExerciseCardState extends State<ExerciseCard> {
   String replaceWordBetweenPipes(String originalString, String word) {
     int start = originalString.indexOf('|');
     int end = originalString.indexOf('|', start + 1);
-
     if (start != -1 && end != -1) {
       String prefix = originalString.substring(0, start + 1);
       String suffix = originalString.substring(end);
       return prefix + word + suffix;
     }
-
     return originalString;
   }
 
   String replaceWordAfterThirdPipe(String originalString, String word) {
     List<String> parts = originalString.split('|');
-
     if (parts.length >= 3) {
       parts[2] = word;
       return parts.join('|');
     }
-
     return originalString;
   }
   //
@@ -83,7 +80,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 dropdownColor: const Color(0xFF3b3b3b),
                 hint: const Text(
                   "TAP TO CHANGE",
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 isExpanded: false,
                 value: selectedExersice,
@@ -95,14 +92,15 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     widget.dropdownValues[widget.index] =
                         widget.dropdownValues[widget.index] +
                             '\|$_currentSetsNumberPickerValue' +
-                            '\|$_currentRepsNumberPickerValue';
+                            '\|$_currentRepsNumberPickerValue' +
+                            '\|$_currentWeightNumberPickerValue';
                   });
                 },
               );
             },
           ),
           SizedBox(
-            width: 20,
+            width: 30,
             child: NumberPicker(
               value: _currentSetsNumberPickerValue,
               minValue: 1,
@@ -122,12 +120,12 @@ class _ExerciseCardState extends State<ExerciseCard> {
               },
             ),
           ),
-          const Text(
+          Text(
             "x",
             style: TextStyle(color: Colors.pink, fontSize: 24),
           ),
           SizedBox(
-            width: 40,
+            width: 30,
             child: NumberPicker(
               value: _currentRepsNumberPickerValue,
               minValue: 1,
@@ -143,6 +141,29 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       replaceWordAfterThirdPipe(
                           widget.dropdownValues[widget.index],
                           _currentRepsNumberPickerValue.toString());
+                });
+              },
+            ),
+          ),
+          const Text(
+            "x",
+            style: TextStyle(color: Colors.pink, fontSize: 24),
+          ),
+          SizedBox(
+            width: 30,
+            child: NumberPicker(
+              value: _currentWeightNumberPickerValue,
+              minValue: 0,
+              maxValue: 45,
+              itemHeight: 25,
+              textStyle: TextStyle(color: Colors.white.withOpacity(0.05)),
+              selectedTextStyle:
+              const TextStyle(color: Colors.white, fontSize: 24),
+              onChanged: (value) {
+                setState(() {
+                  _currentWeightNumberPickerValue = value;
+                  widget.dropdownValues[widget.index] =
+                  widget.dropdownValues[widget.index]+"|"+_currentWeightNumberPickerValue.toString();
                 });
               },
             ),

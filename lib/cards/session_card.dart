@@ -10,8 +10,14 @@ class Session extends StatelessWidget {
 
   makeList() {
     String str = exercises.map((exercise) {
-      exercise = exercise.replaceAll("|", " ");
-      exercise = exercise.replaceRange(exercise.lastIndexOf(" "), exercise.lastIndexOf(" ") + 1, "x");
+      List<String> parts = exercise.split("|");
+      String name = parts[0];
+      String setsXreps = "${parts[1]}x${parts[2]}";
+      if (parts[3] != "0") {
+        String weight = "${parts[3]}kg";
+        exercise = "$name $setsXreps $weight";
+      } else {exercise = "$name $setsXreps";}
+
       exercise += "\n";
       return exercise;
     }).toString();
