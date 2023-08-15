@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:intl/intl.dart';
 
-class MyHeatMap extends StatelessWidget {
-  const MyHeatMap({super.key});
+class MyCalendar extends StatelessWidget {
+  const MyCalendar({super.key});
 
   @override
-  Future<Map<DateTime, int>> getWorkoutDates() async {
+  Future<Map<DateTime, int>> getWorkoutDates() async {       // Getting list of workout dates
     final QuerySnapshot snapshot =
         await FirebaseFirestore.instance.collection('MyWorkouts').get();
 
@@ -16,7 +16,6 @@ class MyHeatMap extends StatelessWidget {
     snapshot.docs.forEach((doc) {
       final String dateString = doc.get('Date');
       final DateTime date = DateFormat('dd-MM-yyyy').parse(dateString);
-
       workoutDates[date] = 1;
     });
     return workoutDates;
@@ -28,7 +27,7 @@ class MyHeatMap extends StatelessWidget {
       future: getWorkoutDates(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
@@ -44,7 +43,7 @@ class MyHeatMap extends StatelessWidget {
             colorMode: ColorMode.color,
             datasets: snapshot.data,
             initDate: DateTime(2023, 8, 1),
-            colorsets: {
+            colorsets: const {
               1: Colors.pink,
             },
             onClick: (value) {},

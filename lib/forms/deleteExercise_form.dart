@@ -12,6 +12,7 @@ class DeleteExerciseForm extends StatefulWidget {
 }
 
 class _DeleteExerciseFormState extends State<DeleteExerciseForm> {
+
   final _formKey = GlobalKey<FormState>();
 
   var exerciseLabel = "";

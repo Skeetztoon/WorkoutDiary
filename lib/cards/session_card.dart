@@ -19,7 +19,6 @@ class Session extends StatelessWidget {
     return str;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -33,8 +32,6 @@ class Session extends StatelessWidget {
               tileColor: const Color(0xFF3b3b3b),
               textColor: Colors.white,
               iconColor: Colors.white,
-              // contentPadding: EdgeInsets.symmetric(horizontal: 20),
-              // leading: FlutterLogo(size: 56.0),
               title: Text(
                 date,
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),

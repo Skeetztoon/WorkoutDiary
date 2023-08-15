@@ -13,6 +13,7 @@ class EditExerciseForm extends StatefulWidget {
 }
 
 class _EditExerciseFormState extends State<EditExerciseForm> {
+
   final _formKey = GlobalKey<FormState>();
 
   var exerciseLabel = "";

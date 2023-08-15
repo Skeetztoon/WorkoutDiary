@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:task_app_flutter/pages/exerciseList_page.dart';
-import 'package:task_app_flutter/pages/my_heat_map.dart';
-
-import 'new_workout_page.dart';
+import 'package:task_app_flutter/cards/my_calendar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -63,7 +61,6 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white),
                   ),
                   FloatingActionButton.extended(
-                    //                       КНОПКА
                     label: const Text(
                       'LIST',
                       style: TextStyle(
@@ -108,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               child: const Stack(
                 alignment: AlignmentDirectional.topCenter,
                 children: [
-                  MyHeatMap(),
+                  MyCalendar(),
                   Positioned(
                     top: 12.0,
                     child: Text("TRACKER",

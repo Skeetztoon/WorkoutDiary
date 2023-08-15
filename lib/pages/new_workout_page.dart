@@ -12,27 +12,11 @@ class NewWorkout extends StatefulWidget {
 }
 
 class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
-  late final AnimationController _controller;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-  }
+  final List exerciseCounter = [1];                  // List for creating exercises
+  List<String> dropdownValues = [''];             // List for storing values of exercises
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  final List exerciseCounter = [
-    1,
-  ];
-
-  List<String> dropdownValues = [''];
-
-  ScrollController controller = new ScrollController();
+  ScrollController controller = new ScrollController(); // Animation scroll on adding new exercises
 
   bool isFinished = false;
 
@@ -51,6 +35,7 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
       });
     });
     stopwatch.start();
+
     return Scaffold(
         backgroundColor: Colors.black.withOpacity(0.5),
         body: Center(
@@ -77,11 +62,12 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                 ),
                 Text(
                   elapsedTime,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 25,
                     color: Colors.white,
                   ),
                 ),
+
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxHeight: 450),
                   child: ListView.builder(
@@ -105,6 +91,9 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                             ));
                       }),
                 ),
+
+                const SizedBox(height: 20,),
+
                 FloatingActionButton.extended(
                   //                       КНОПКА
                   label: const Text(
@@ -125,12 +114,13 @@ class _NewWorkoutState extends State<NewWorkout> with TickerProviderStateMixin {
                       exerciseCounter
                           .add(exerciseCounter[exerciseCounter.length - 1] + 1);
                       Timer(const Duration(milliseconds: 100), () {
-                        controller.jumpTo(controller.position.maxScrollExtent);
+                        controller.jumpTo(controller.position.maxScrollExtent); // Scroll to last item
                       });
                       dropdownValues.add("");
                     });
                   },
                 ),
+
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,

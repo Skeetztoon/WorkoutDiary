@@ -22,10 +22,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
   String? selectedExersice;
 
   // GPT
-  String conCat(String a, String b, String c) {
-    return a + b + c;
-  }
-
   String replaceWordBetweenPipes(String originalString, String word) {
     int start = originalString.indexOf('|');
     int end = originalString.indexOf('|', start + 1);
@@ -65,7 +61,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
             builder: (context, snapshot) {
               List<DropdownMenuItem> exerciseItems = [];
               if (!snapshot.hasData) {
-                // return const Text("Loading");
                 const CircularProgressIndicator();
               } else {
                 final exercises = snapshot.data?.docs.reversed.toList();

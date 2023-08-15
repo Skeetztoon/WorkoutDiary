@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:task_app_flutter/cards/exerciseItem_card.dart';
 import 'package:task_app_flutter/forms/createExercise_form.dart';
 
-
 class ExerciseList extends StatefulWidget {
   const ExerciseList({super.key});
 
@@ -36,7 +35,6 @@ class _ExerciseListState extends State<ExerciseList> {
             height: 5,
           ),
 
-
           Expanded(
               child: StreamBuilder<QuerySnapshot>(stream: exercisesList, builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot,) {
                 if (snapshot.hasError) {
@@ -58,6 +56,7 @@ class _ExerciseListState extends State<ExerciseList> {
           ),
         ],
       ),
+
       floatingActionButton: SizedBox(
         width: 80,
         height: 80,

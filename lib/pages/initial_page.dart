@@ -11,6 +11,7 @@ class InitPage extends StatefulWidget {
 }
 
 class _InitPageState extends State<InitPage> {
+
   int _currentIndex = 0;
   final tabs = [
     const HomePage(),
@@ -21,8 +22,7 @@ class _InitPageState extends State<InitPage> {
   Widget build(BuildContext context) {
 
     Future<bool> showExitPopup() async {
-      return await showDialog( //show confirm dialogue
-        //the return value will be from "Yes" or "No" options
+      return await showDialog(              // Show confirm dialogue
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: const Color(0xff282828),
@@ -32,28 +32,26 @@ class _InitPageState extends State<InitPage> {
             ElevatedButton(
         style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
               onPressed: () => Navigator.of(context).pop(false),
-              //return false when click on "NO"
               child:const Text('No'),
             ),
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
               onPressed: () => Navigator.of(context).pop(true),
-              //return true when click on "Yes"
               child:const Text('Yes'),
             ),
 
           ],
         ),
-      )??false; //if showDialouge had returned null, then return false
+      )??false;                               // If showDialouge had returned null, then return false
     }
 
   return WillPopScope(
-  onWillPop: showExitPopup, //call function on back button press
+  onWillPop: showExitPopup,                   // Call function on back button press
+
   child:Scaffold(
-                              //STACK СЮДА
       body: tabs[_currentIndex],
-      floatingActionButton: Container(
+      floatingActionButton: SizedBox(
         height: 80.0,
         width: 80.0,
         child: FittedBox(
