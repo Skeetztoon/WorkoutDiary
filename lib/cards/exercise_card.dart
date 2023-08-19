@@ -42,6 +42,13 @@ class _ExerciseCardState extends State<ExerciseCard> {
     }
     return originalString;
   }
+
+  String replaceLastWord(String originalString, String word) {
+    originalString = originalString.substring(0,originalString.lastIndexOf("|")+1);
+    originalString+=word;
+
+    return originalString;
+  }
   //
 
   @override
@@ -163,7 +170,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 setState(() {
                   _currentWeightNumberPickerValue = value;
                   widget.dropdownValues[widget.index] =
-                  widget.dropdownValues[widget.index]+"|"+_currentWeightNumberPickerValue.toString();
+                  replaceLastWord(widget.dropdownValues[widget.index], _currentWeightNumberPickerValue.toString());
                 });
               },
             ),
